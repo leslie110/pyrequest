@@ -24,3 +24,6 @@ class AddGuestTest(unittest.TestCase):
         r = self.result.json()
         self.assertEqual(r['status'],10021)
         self.assertEqual(r['message'],'parameter error')
+
+if __name__ == '__main__':
+    unittest.main()
