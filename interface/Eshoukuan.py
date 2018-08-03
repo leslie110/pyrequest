@@ -15,8 +15,6 @@ MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMtrfcrKrG41tG5aWNKJusCs9yVkdt4G
 -----END RSA PRIVATE KEY-----'''
 AES_Key="2e8a490fd9745a68d1930aabcacb3a6a"
 
-data = {"name":"leslie",
-        "password":"a123456"}
 url = "https://merchant.ardy0220.top/out/addItems"
 
 def paixu(sha_data):
@@ -24,11 +22,12 @@ def paixu(sha_data):
     param = []
     for _key, _value in sha_data:
         param.append(_key + "=" + _value)
+    print (('&'.join(param).encode()))
     return ('&'.join(param).encode())
 def sign(date, prikey):
     key = RSA.import_key(prikey)
-    print (paixu(data))
     h = SHA.new(paixu(date))
+    print (h.hexdigest())
     signer = PKCS1_v1_5.new(key)
     sign_auter = signer.sign(h)
     return str(b2a_hex(sign_auter),'utf-8')
@@ -51,9 +50,14 @@ if __name__ == '__main__':
                            ("merchantId","20160000"),
                            ("list","[{\"cashierId\":\"213639\",\"payAmt\":10,\"scode\":\"1000000458046259\"}]")
                            ])
-    sign1 = sign(data,priKey)
+    data = {"paymentCode": "1000000477581663",
+               "merchantId": "20160000",
+               "list": "[{\"cashierId\":\"213639\",\"payAmt\":10,\"scode\":\"1000000458046259\"}]"}
+    sign1 = sign(payload,priKey)
+    print (sign1)
     aes_data = encrypt_oracle(payload)
     print (aes_data)
-    data = {"data":aes_data,"sign":sign1}
-    result = login(url,data=data)
+    data1 = {"data":aes_data,"sign":sign1}
+    result = login(url,data=data1)
     print (result)
+

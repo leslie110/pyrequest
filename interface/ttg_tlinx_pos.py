@@ -71,3 +71,10 @@ a = pub_rsa_pwd(base64.b64decode(pub_key),data)
 print (a)
 end = first_login("http://openapi.tlinx.cn/mct1/user/login",a)
 print (end)
+data_add = OrderedDict([("name","leslie"),
+                    ("password",password),
+                    ("app","ios"),
+                    ("device_code","7523C64626AC822A1C2C0358F49B6247")])
+
+data_add['openid'] = '1154545'
+print (data_add)
